@@ -65,6 +65,48 @@ function naoBuscouMensagem(erro) {
     console.log('não chegou requerimento para buscar mensagens');
 }
 
+
+
+function entrarNaSala() {
+    nomeUsuario = prompt("Digite seu nome");
+    objNome = {name: nomeUsuario};
+
+    const promise = axios.post("https://mock-api.driven.com.br/api/v6/uol/participants", objNome);
+
+    promise.then(enviouNomeUsuario);
+    promise.catch(naoEnviouNomeUsuario);
+}
+
+function enviouNomeUsuario(resposta) {
+    console.log('chegou o nome de usuario');
+}
+
+function naoEnviouNomeUsuario(erro) {
+    console.log('nao chegou o nome de usuario');
+    window.location.reload(); // trocar depois
+}
+
+
+function verificaConexao() {
+    const promise = axios.post("https://mock-api.driven.com.br/api/v6/uol/status", objNome)
+
+    promise.then(chegouConexao);
+    promise.catch(naoChegouConexao);
+}
+
+function chegouConexao(resposta) {
+    console.log('online');
+}
+
+function naoChegouConexao(erro) {
+    console.log('offline');
+}
+
+
+setInterval(verificaConexao, 5000);
+
+entrarNaSala();
+
 setInterval(buscarMensagens, 3000);
 
 buscarMensagens();
