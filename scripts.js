@@ -102,6 +102,29 @@ function naoChegouConexao(erro) {
     console.log('offline');
 }
 
+function enviarMensagem(){
+    const message = document.querySelector('textarea');
+    novaMensagem ={
+        from: nomeUsuario,
+        to: "Todos",
+        text: message.value,
+        type: "message",
+    }
+    
+    const promise = axios.post("https://mock-api.driven.com.br/api/v6/uol/messages", novaMensagem)
+
+    promise.then(chegouMensagem);
+    promise.catch(naoChegouMensagem);
+}
+
+function chegouMensagem(resposta) {
+    console.log('nova mensagem chegou no servidor')
+}
+
+function naoChegouMensagem(erro) {
+    console.log('nova mensagem não chegou no servidor');
+    window.location.reload()
+}
 
 setInterval(verificaConexao, 5000);
 
