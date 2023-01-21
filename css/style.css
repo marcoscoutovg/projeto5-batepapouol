@@ -98,3 +98,7 @@ ul {
 .private-message {
     background-color: #FFDEDE;
 }
+
+span {
+    font-weight: bold;
+}
