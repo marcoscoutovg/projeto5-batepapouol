@@ -9,8 +9,6 @@ let novaMensagem; // objeto com as novas mensagens que serão enviadas pro servi
 const lista = document.querySelector('ul');
 
 
-
-
 function entrarNaSala() {
     nomeUsuario = prompt("Digite seu nome");
     objNome = {name: nomeUsuario};
@@ -28,6 +26,7 @@ function enviouNomeUsuario(resposta) {
 
 function naoEnviouNomeUsuario(erro) {
     console.log('nao chegou o nome de usuario');
+    alert("Digite outro nome. Esse já está em uso");
     entrarNaSala();
 }
 
@@ -124,7 +123,8 @@ function enviarMensagem(){
 }
 
 function chegouMensagem(resposta) {
-    console.log('nova mensagem chegou no servidor')
+    console.log('nova mensagem chegou no servidor');
+    buscarMensagens();
 }
 
 function naoChegouMensagem(erro) {
