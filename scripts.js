@@ -8,10 +8,14 @@ let novaMensagem; // objeto com as novas mensagens que serão enviadas pro servi
 
 const lista = document.querySelector('ul');
 
-
-function entrarNaSala() {
+function logar() {
     nomeUsuario = prompt("Digite seu nome");
     objNome = {name: nomeUsuario};
+}
+
+logar();
+
+function entrarNaSala() {
 
     const promise = axios.post("https://mock-api.driven.com.br/api/v6/uol/participants", objNome);
 
@@ -27,6 +31,7 @@ function enviouNomeUsuario(resposta) {
 function naoEnviouNomeUsuario(erro) {
     console.log('nao chegou o nome de usuario');
     alert("Digite outro nome. Esse já está em uso");
+    logar();
     entrarNaSala();
 }
 
