@@ -1,12 +1,22 @@
-let mensagens = []; // array que vai receber as mensagens do servidor
+// array que vai receber as mensagens do servidor
+let mensagens = [];
 
-let nomeUsuario; // vai armazenar o nome do prompt
+// vai armazenar o nome do prompt
+let nomeUsuario; 
 
-let objNome; // objeto com o nome de usuario que vai ser enviado pro servidor
+// objeto com o nome de usuario que vai ser enviado pro servidor
+let objNome;
 
-let novaMensagem; // objeto com as novas mensagens que serão enviadas pro servidor
+// objeto com as novas mensagens que serão enviadas pro servidor
+let novaMensagem;
+
+const tempoVerificaConexao = 5000;
+
+const atualizaMensagem = 3000;
 
 const lista = document.querySelector('ul');
+
+const areaDigitacao = document.querySelector('textarea');
 
 function logar() {
     nomeUsuario = prompt("Digite seu nome");
@@ -46,28 +56,28 @@ function exibirMensagemTela() {
         if (mensagens[i].type === "message") {
             let template = `
                 <li data-test="message" class="message msg">
-                    <p>(${mensagens[i].time}) <span>${mensagens[i].from}</span> para <span>${mensagens[i].to}</span>: ${mensagens[i].text}</p>
+                    <p><span class="tempo">(${mensagens[i].time})</span>    <span>${mensagens[i].from}</span> para <span>${mensagens[i].to}</span>: ${mensagens[i].text}</p>
                 </li>
             `
             lista.innerHTML += template;
-        }   
+        }
         
         if (mensagens[i].type === "status") {
-            let status = `
+            const status = `
                 <li data-test="message" class="status msg">
-                    <p>(${mensagens[i].time}) <span>${mensagens[i].from}</span> ${mensagens[i].text}</p>
+                    <p><span class="tempo">(${mensagens[i].time})</span>    <span>${mensagens[i].from}</span> ${mensagens[i].text}</p>
                 </li>
             `
             lista.innerHTML += status;
         }
 
         if (mensagens[i].type === "private_message" && (mensagens[i].from === nomeUsuario || mensagens[i].to === nomeUsuario)) {
-            let private = `
+            const privado = `
                 <li data-test="message" class="private-message msg">
-                    <p>(${mensagens[i].time}) <span>${mensagens[i].from}</span> reservadamente para <span>${mensagens[i].to}</span>: ${mensagens[i].text}</p>
+                    <p><span class="tempo">(${mensagens[i].time})</span>   a <span>${mensagens[i].from}</span> reservadamente para <span>${mensagens[i].to}</span>: ${mensagens[i].text}</p>
                 </li>
             `
-            lista.innerHTML += private;
+            lista.innerHTML += privado;
         }
     }
 
@@ -95,7 +105,7 @@ function naoBuscouMensagem(erro) {
 
 
 function verificaConexao() {
-    const promise = axios.post("https://mock-api.driven.com.br/api/v6/uol/status", objNome)
+    const promise = axios.post("https://mock-api.driven.com.br/api/v6/uol/status", objNome);
 
     promise.then(chegouConexao);
     promise.catch(naoChegouConexao);
@@ -103,12 +113,12 @@ function verificaConexao() {
 
 function chegouConexao(resposta) {
     console.log('online');
-    console.log(resposta.data)
+    console.log(resposta.data);
 }
 
 function naoChegouConexao(erro) {
     console.log('offline');
-    console.log(erro.response.status)
+    console.log(erro.response.status);
 }
 
 function enviarMensagem(){
@@ -119,12 +129,13 @@ function enviarMensagem(){
         text: message.value,
         type: "message",
     }
-    
-    const promise = axios.post("https://mock-api.driven.com.br/api/v6/uol/messages", novaMensagem)
+
+    const promise = axios.post("https://mock-api.driven.com.br/api/v6/uol/messages", novaMensagem);
 
     promise.then(chegouMensagem);
     promise.catch(naoChegouMensagem);
 
+    areaDigitacao.value = '';
 }
 
 function chegouMensagem(resposta) {
@@ -134,9 +145,9 @@ function chegouMensagem(resposta) {
 
 function naoChegouMensagem(erro) {
     console.log('nova mensagem não chegou no servidor');
-    window.location.reload()
+    window.location.reload();
 }
 
-setInterval(verificaConexao, 5000);
+setInterval(verificaConexao, tempoVerificaConexao);
 
-setInterval(buscarMensagens, 3000);
+setInterval(buscarMensagens, atualizaMensagem);

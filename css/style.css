@@ -6,6 +6,10 @@ body {
     background: #E5E5E5;
 }
 
+.container {
+    width: 375px;
+}
+
 header {
     width: 375px;
     height: 80px;
@@ -65,19 +69,19 @@ textarea {
     color: #000000;
 }
 
-.message,
-.status,
-.private-message {
+.msg {
     width: 375px;
+    height: auto;
     border-radius: 2px;
     margin-bottom: 4px;
-    padding: 15px 5px;
+    padding: 15px 9px;
     font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 14px;
     line-height: 16px;
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     color: #000000;
 }
@@ -101,4 +105,13 @@ ul {
 
 span {
     font-weight: bold;
+}
+
+.tempo {
+    color: #AAAAAA;
+    font-weight: normal;
+}
+
+p {
+    word-break: break-all;
 }
