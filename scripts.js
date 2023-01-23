@@ -2,7 +2,7 @@
 let mensagens = [];
 
 // vai armazenar o nome inserido no prompt
-let nomeUsuario; 
+let nomeUsuario;
 
 // objeto com o nome de usuario que vai ser enviado pro servidor
 let objNome;
@@ -32,13 +32,13 @@ function entrarNaSala() {
     promise.catch(naoEnviouNomeUsuario);
 }
 
-function enviouNomeUsuario(resposta) {
+function enviouNomeUsuario() {
     buscarMensagens();
     setInterval(buscarMensagens, atualizaMensagem);
     setInterval(verificaConexao, tempoVerificaConexao);
 }
 
-function naoEnviouNomeUsuario(erro) {
+function naoEnviouNomeUsuario() {
     alert("Digite outro nome. Esse já está em uso");
     logar();
     entrarNaSala();
@@ -73,7 +73,8 @@ function exibirMensagemTela() {
         if ((mensagens[i].type === "private_message" && mensagens[i].from === nomeUsuario) || (mensagens[i].type === "private_message" && mensagens[i].to === nomeUsuario)) {
             const privado = `
                 <li data-test="message" class="private-message msg">
-                    <p><span class="tempo">(${mensagens[i].time})</span>     <span>${mensagens[i].from}</span> reservadamente para <span>${mensagens[i].to}</span>: ${mensagens[i].text}</p>
+                    <p><span class="tempo">(${mensagens[i].time})</span>     <span>${mensagens[i].from}</span> reservadamente para 
+                    <span>${mensagens[i].to}</span>: ${mensagens[i].text}</p>
                 </li>
             `
             lista.innerHTML += privado;
@@ -96,7 +97,7 @@ function buscouMensagem(resposta) {
     exibirMensagemTela();
 }
 
-function naoBuscouMensagem(erro) {
+function naoBuscouMensagem() {
     window.location.reload();
 }
 
@@ -107,19 +108,19 @@ function verificaConexao() {
     promise.catch(naoChegouConexao);
 }
 
-function naoChegouConexao(erro) {
+function naoChegouConexao() {
     window.location.reload();
 }
 
 function enviarMensagem(){
     const message = document.querySelector('textarea');
-    
+
     novaMensagem ={
         from: nomeUsuario,
         to: "Todos",
         text: message.value,
         type: "message",
-    }
+    };
 
     const promise = axios.post("https://mock-api.driven.com.br/api/v6/uol/messages", novaMensagem);
 
@@ -129,10 +130,10 @@ function enviarMensagem(){
     areaDigitacao.value = '';
 }
 
-function chegouMensagem(resposta) {
+function chegouMensagem() {
     buscarMensagens();
 }
 
-function naoChegouMensagem(erro) {
+function naoChegouMensagem() {
     window.location.reload();
 }
